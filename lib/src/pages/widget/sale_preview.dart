@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:saletrackerapp/src/models/product.dart';
 import 'package:saletrackerapp/src/models/sale.dart';
 
-
 class SalesPreview extends StatelessWidget {
   final Product product;
   final SalesRecord record;
 
-  SalesPreview({
-    Key? key,
+  const SalesPreview({
+    super.key,
     required this.record,
     required this.product,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +19,23 @@ class SalesPreview extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           buildLabelRow('Date', record.dateStr),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           buildLabelRow('Product', record.productName),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           buildLabelRow('Product Cost', record.unitBuyPriceStr),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           buildLabelRow('Available', '${product.quantity} ps.'),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           buildLabelRow('Selling Price', record.unitSellPriceStr),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           buildLabelRow('Sell Quantity', '${record.quantity} ps.'),
-          Divider(),
+          const Divider(),
           buildLabelRow('Total Cost', record.buyingPriceStr),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           buildLabelRow('Total Price', record.sellingPriceStr),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           buildLabelRow('Profit per Unit', record.profitPerUnitStr),
-          Divider(),
+          const Divider(),
           buildLabelRow('Net Profit', record.profitStr),
         ],
       ),
@@ -46,7 +45,7 @@ class SalesPreview extends StatelessWidget {
   Widget buildLabelRow(String labelText, String valueText) {
     return Row(
       children: [
-        Container(
+        SizedBox(
           width: 100,
           child: Text(
             labelText,
@@ -57,11 +56,11 @@ class SalesPreview extends StatelessWidget {
             ),
           ),
         ),
-        Text(' : '),
+        const Text(' : '),
         Expanded(
           child: Text(
             valueText,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),

@@ -15,5 +15,5 @@ String formatCurrency(double value) {
     result.add(chars[i]);
   }
   final formatted = String.fromCharCodes(result.reversed);
-  return sign + formatted + '/='; // '৳'; // '৳';
+  return sign + formatted + '/='; 
 }

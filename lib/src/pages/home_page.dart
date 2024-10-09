@@ -12,7 +12,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: buildAppBar(),
       backgroundColor: Colors.grey[300],
       appBar: buildAppBar(context),
       floatingActionButton: buildAddItemButton(context),
@@ -22,7 +21,6 @@ class HomePage extends StatelessWidget {
       body: StreamBuilder<List<Product>>(
         stream: Repository.of(context).nonZeroProducts,
         builder: (context, snapshot) {
-          // print(snapshot.connectionState);
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
@@ -56,28 +54,12 @@ class HomePage extends StatelessWidget {
             elevation: MaterialStateProperty.all(0),
           ),
         ),
-        // IconButton(
-        //   onPressed: () => FirebaseAuth.instance.signOut(),
-        //   icon: Icon(Icons.logout),
-        // ),
       ],
     );
   }
 
   FloatingActionButton buildAddItemButton(BuildContext context) {
     return FloatingActionButton(
-      // onPressed: () {
-      //   // AddProductDialog.display(context);
-      //   print('adding new product...');
-      //   Repository.of(context).addProduct(
-      //     Product(
-      //       name: 'Dummy #${(Random.secure().nextInt(1023)).toRadixString(16)}',
-      //       date: DateTime.now(),
-      //       quantity: Random.secure().nextInt(100),
-      //       unitPrice: Random.secure().nextDouble() * 100.0,
-      //     ),
-      //   );
-      // },
       onPressed: () => ProductFormDialog.display(context),
       child: const Icon(Icons.add),
     );

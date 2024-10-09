@@ -8,10 +8,10 @@ class GlobalBloc extends StatefulWidget {
 
   final Widget child;
 
-  GlobalBloc({
-    Key? key,
+  const GlobalBloc({
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   GlobalBlocState createState() => GlobalBlocState();

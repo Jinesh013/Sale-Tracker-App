@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:saletrackerapp/src/blocks/global_block.dart';
 import 'package:saletrackerapp/src/models/product.dart';
@@ -66,16 +66,6 @@ class Repository {
     }
     await _userDoc.update({'password': newHash});
   }
-
-  // static Repository of(BuildContext context) =>
-  //     context.findAncestorWidgetOfExactType<Repository>()!;
-
-  // Stream<List<Product>> get allProducts =>
-  //     _products.snapshots().asyncMap((event) {
-  //       return event.docs.fold<List<Product>>([], (list, doc) {
-  //         return list..add(Product.fromJson(doc.id, doc.data()));
-  //       });
-  //     });
 
   /// Get all products
   Stream<List<Product>> get allProducts =>
@@ -147,5 +137,5 @@ class Repository {
     final products = await _products.get();
     await Future.wait(products.docs.map((doc) => doc.reference.delete()));
     await Future.wait(sales.docs.map((doc) => doc.reference.delete()));
-  } 
+  }
 }
