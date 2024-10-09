@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1014739984152",
+    "project_id": "saletracker-18a2c",
+    "storage_bucket": "saletracker-18a2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014739984152:android:10fed088060b69eb23086d",
+        "android_client_info": {
+          "package_name": "com.example.saletrackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014739984152-rmmdto85a64ktmqsb28nvkuf1tif4g4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.saletrackerapp",
+            "certificate_hash": "b65700f168a5de6c57bb3eb68c000cfe2e89c362"
+          }
+        },
+        {
+          "client_id": "1014739984152-qijab8odrkldr0c57pvmfbsrt0i6n9l1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUQYa09RTgaW6CjLEh0J5f64XSuTN4qHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014739984152-qijab8odrkldr0c57pvmfbsrt0i6n9l1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
