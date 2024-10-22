@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:saletrackerapp/src/blocks/repository.dart';
+import 'package:saletrackerapp/src/pages/product_report_page.dart';
 import 'package:saletrackerapp/src/pages/sale_report_page.dart';
 import 'package:saletrackerapp/src/pages/widget/product_form_dialog.dart';
 
@@ -119,10 +122,11 @@ class HomePageDrawer extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
-      onTap: () {
+      onTap: () async {
+        await ProductReportPage.display(context);
         Navigator.of(context).pop();
         // ReportPage.display(context);
-        SalesReportPage.display(context);
+        // SalesReportPage.display(context);
       },
     );
   }
@@ -135,9 +139,10 @@ class HomePageDrawer extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
-      onTap: () {
+      onTap: () async {
+        await SalesReportPage.display(context);
         Navigator.of(context).pop();
-        SalesReportPage.display(context);
+        // SalesReportPage.display(context);
       },
     );
   }

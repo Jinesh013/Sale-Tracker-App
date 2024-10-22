@@ -47,7 +47,7 @@ class ErrorMessage extends StatelessWidget {
 
   Widget buildErrorDetails() {
     return Container(
-      padding: EdgeInsets.all(10),  
+      padding: const EdgeInsets.all(10),  
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         border: Border.all(),

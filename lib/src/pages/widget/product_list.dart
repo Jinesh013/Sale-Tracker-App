@@ -79,12 +79,8 @@ class _ProductListViewState extends State<ProductListView> {
     if (widget.products.length < 7) {
       return Container();
     }
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
-      ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: TextField(
         controller: filterInput,
         textInputAction: TextInputAction.search,
@@ -92,11 +88,13 @@ class _ProductListViewState extends State<ProductListView> {
           filter = text.trim().toLowerCase();
           if (mounted) setState(() {});
         },
+        style: const TextStyle(fontSize: 16),
         decoration: InputDecoration(
           isDense: true,
+          filled: true,
           fillColor: Colors.white,
-          labelText: 'Filter Items',
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+          hintText: 'Filter items',
+          border: const OutlineInputBorder(),
           prefixIcon: const Icon(Icons.search),
           suffixIcon: SizedBox(
             height: 24,
