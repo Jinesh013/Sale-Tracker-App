@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:saletrackerapp/src/blocks/global_block.dart';
 import 'package:saletrackerapp/src/models/product.dart';
 import 'package:saletrackerapp/src/models/product_report.dart';
-import 'package:saletrackerapp/src/models/report.dart';
 import 'package:saletrackerapp/src/models/sale.dart';
 import 'package:saletrackerapp/src/models/sale_report.dart';
 

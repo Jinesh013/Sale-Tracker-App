@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:saletrackerapp/src/blocks/repository.dart';
-import 'package:saletrackerapp/src/pages/report_page.dart';
 import 'package:saletrackerapp/src/pages/sale_report_page.dart';
 import 'package:saletrackerapp/src/pages/widget/product_form_dialog.dart';
 
@@ -96,6 +96,7 @@ class HomePageDrawer extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         FirebaseAuth.instance.signOut();
+        GoogleSignIn().signOut();
       },
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -125,11 +126,12 @@ class HomePageDrawer extends StatelessWidget {
       },
     );
   }
+
   Widget buildSalesReportButton(BuildContext context) {
     return ListTile(
       tileColor: Colors.grey[100],
-      title: Text('Sales Report'),
-      leading: Icon(Icons.history_edu),
+      title: const Text('Sales Report'),
+      leading: const Icon(Icons.history_edu),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
