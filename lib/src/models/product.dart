@@ -1,49 +1,39 @@
+import 'package:saletrackerapp/src/models/items.dart';
 import 'package:saletrackerapp/src/utils/formatters.dart';
 
-class Product {
-  final String? id;
-  late final String name;
-  late final double unitPrice;
-  late final int quantity;
-  late final DateTime date;
+export 'package:saletrackerapp/src/models/items.dart';
 
-  double get price => quantity * unitPrice;
+class Product extends Item {
+  late final String name;
+  late final double unitCost;
+
+  double get cost => quantity * unitCost;
 
   Product({
     required this.name,
-    required this.unitPrice,
-    required this.quantity,
-    required this.date,
-  }) : id = null;
-
-  Product.fromJson(String id, Map<String, dynamic> data) : id = id {
-    name = data['name'];
-    unitPrice = data['unit_price'];
-    quantity = data['quantity'];
-    date = DateTime.fromMillisecondsSinceEpoch(data['date'] ?? 0);
+    required this.unitCost,
+    required super.quantity,
+    required super.date,
+  });
+  Product.fromJson(String id, Map<String, dynamic> data)
+      : super.fromJson(id, data) {
+    name = data.remove('name');
+    unitCost = data.remove('unit_price');
   }
 
   // Map<String, dynamic> toJsonMap() {
+  @override
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> data = {};
+    final data = super.toJson();
     // data['id'] = id;
     data['name'] = name;
-    data['unit_price'] = unitPrice;
-    data['quantity'] = quantity;
-    data['date'] = date.millisecondsSinceEpoch;
+    data['unit_price'] = unitCost;
     return data;
   }
-
-  @override
-  bool operator ==(Object other) {
-    return other is Product && other.id == id;
-  }
-
-  @override
-  int get hashCode => id.hashCode;
 }
-extension ProductFormat on Product {
-  String get unitPriceStr => formatCurrency(unitPrice);
 
-  String get priceStr => formatCurrency(price);
+extension ProductFormat on Product {
+  String get unitCostStr => formatCurrency(unitCost);
+
+  String get costStr => formatCurrency(cost);
 }

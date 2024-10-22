@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:saletrackerapp/src/models/report.dart';
 import 'package:saletrackerapp/src/models/sale.dart';
+import 'package:saletrackerapp/src/models/sale_report.dart';
 
 class ReportView extends StatelessWidget {
   final Report report;
@@ -13,11 +14,12 @@ class ReportView extends StatelessWidget {
     if (report.totalItems == 0) {
       return buildEmptyMessage();
     }
+
     List<Widget> children = [];
     report.groups.forEach((date, salesList) {
       children.add(buildGroupHeader(date));
       children.add(const Divider());
-      salesList.map(buildRecordItem).forEach((child) {
+      salesList.map(buildRecordItem as Function(Item e)).forEach((child) {
         children.add(child);
         children.add(const SizedBox(height: 10));
       });
@@ -32,16 +34,24 @@ class ReportView extends StatelessWidget {
       const SizedBox(height: 10),
       buildItemRow('Items Sold', '${report.totalItems}', Colors.grey[700]),
       const SizedBox(height: 10),
-      const Divider(height: 1),
-      const SizedBox(height: 10),
-      buildItemRow('Selling Price', report.totalPriceStr, Colors.blueGrey[700]),
-      const SizedBox(height: 10),
-      buildItemRow('Production Cost', report.totalCostStr, Colors.grey[700]),
-      const SizedBox(height: 10),
-      const Divider(height: 1),
-      const SizedBox(height: 10),
-      buildItemRow('Total Profit', report.profitStr),
     ];
+
+    if (report is SalesReport) {
+      SalesReport salesReport = report as SalesReport;
+      children += [
+        const Divider(height: 1),
+        const SizedBox(height: 10),
+        buildItemRow(
+            'Selling Price', salesReport.totalPriceStr, Colors.blueGrey[700]),
+        const SizedBox(height: 10),
+        buildItemRow(
+            'Production Cost', salesReport.totalCostStr, Colors.grey[700]),
+        const SizedBox(height: 10),
+        const Divider(height: 1),
+        const SizedBox(height: 10),
+        buildItemRow('Total Profit', salesReport.profitStr),
+      ];
+    }
 
     return ListView(
       padding: const EdgeInsets.only(

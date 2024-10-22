@@ -117,7 +117,7 @@ class ProductItemTile extends StatelessWidget {
         children: [
           const TextSpan(text: 'Each unit costs '),
           TextSpan(
-              text: product.unitPriceStr,
+              text: product.unitCostStr,
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontFamily: 'monospace',
@@ -129,7 +129,7 @@ class ProductItemTile extends StatelessWidget {
 
   Text buildPrice() {
     return Text(
-      product.priceStr,
+      product.costStr,
       style: const TextStyle(
         fontWeight: FontWeight.w600,
         fontFamily: 'monospace',

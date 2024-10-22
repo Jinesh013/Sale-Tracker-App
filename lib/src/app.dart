@@ -25,13 +25,18 @@ class SalesTrackerApp extends StatelessWidget {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
-                return buildLoading();
+                // return buildLoading();
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               case ConnectionState.active:
               case ConnectionState.done:
                 if (snapshot.data == null) {
                   return const LoginPage();
+                } else {
+                  return const HomePage();
                 }
-                return withUserVerification(context);
+              // return withUserVerification(context);
             }
           },
         ),

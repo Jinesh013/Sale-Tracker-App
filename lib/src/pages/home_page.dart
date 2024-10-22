@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:saletrackerapp/src/blocks/repository.dart';
 import 'package:saletrackerapp/src/models/product.dart';
-import 'package:saletrackerapp/src/pages/report_page.dart';
+import 'package:saletrackerapp/src/pages/product_report_page.dart';
+import 'package:saletrackerapp/src/pages/sale_report_page.dart';
 import 'package:saletrackerapp/src/pages/widget/home_page_drawer.dart';
 import 'package:saletrackerapp/src/pages/widget/product_form_dialog.dart';
-import 'package:saletrackerapp/src/pages/widget/product_items.dart';
+import 'package:saletrackerapp/src/pages/widget/product_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,7 +20,7 @@ class HomePage extends StatelessWidget {
         child: HomePageDrawer(),
       ),
       body: StreamBuilder<List<Product>>(
-        stream: Repository.of(context).nonZeroProducts,
+        stream: Repository.of(context).allProducts,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
                   error: FlutterError("${snapshot.error}"),
                 );
               }
-              return buildListView(context, snapshot.requireData);
+              return ProductListView(snapshot.requireData);
           }
         },
       ),
@@ -46,13 +47,32 @@ class HomePage extends StatelessWidget {
     return AppBar(
       title: const Text("Sales Tracker"),
       actions: [
-        ElevatedButton.icon(
-          onPressed: () => ReportPage.display(context),
+        PopupMenuButton<int>(
           icon: const Icon(Icons.history),
-          label: const Text('Report'),
-          style: ButtonStyle(
-            elevation: MaterialStateProperty.all(0),
-          ),
+          // label: const Text('Report'),
+          // style: ButtonStyle(
+          //   elevation: MaterialStateProperty.all(0),
+          // ),
+          itemBuilder: (context) => [
+            const PopupMenuItem(
+              value: 1,
+              child: Text('Product Report'),
+            ),
+            const PopupMenuItem(
+              value: 2,
+              child: Text('Sales Report'),
+            ),
+          ],
+          onSelected: (index) {
+            switch (index) {
+              case 1:
+                ProductReportPage.display(context);
+                break;
+              case 2:
+                SalesReportPage.display(context);
+                break;
+            }
+          },
         ),
       ],
     );
@@ -62,27 +82,6 @@ class HomePage extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () => ProductFormDialog.display(context),
       child: const Icon(Icons.add),
-    );
-  }
-
-  Widget buildListView(BuildContext context, List<Product> products) {
-    if (products.isEmpty) {
-      return Container(
-        color: const Color(0xffe0e0e0),
-        padding: const EdgeInsets.all(15),
-        alignment: Alignment.center,
-        child: Text(
-          'Click on the + button below to add new items',
-          style: Theme.of(context).textTheme.titleMedium,
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-    return ListView.separated(
-      itemCount: products.length,
-      padding: const EdgeInsets.only(bottom: 100, top: 15),
-      separatorBuilder: (context, index) => const Divider(height: 5),
-      itemBuilder: (context, index) => ProductItemTile(products[index]),
     );
   }
 }

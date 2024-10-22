@@ -3,10 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:saletrackerapp/src/blocks/global_block.dart';
 import 'package:saletrackerapp/src/models/product.dart';
+import 'package:saletrackerapp/src/models/product_report.dart';
 import 'package:saletrackerapp/src/models/report.dart';
 import 'package:saletrackerapp/src/models/sale.dart';
+import 'package:saletrackerapp/src/models/sale_report.dart';
 
 class Repository {
+  get nonZeroProducts => null;
+
   static Repository of(BuildContext context) =>
       GlobalBloc.of(context).repository;
 
@@ -60,23 +64,26 @@ class Repository {
   }
 
   /// Get user verified status stream
-  Stream<bool> get userVerified => _userDoc.parent
-      .where('uid', isEqualTo: user.uid)
-      .where('password', isEqualTo: _generatePassword())
-      .snapshots()
-      .map((event) => event.size == 1 && event.docs.first.id == user.uid);
+  Stream<bool> get userVerified {
+    return _userDoc.parent
+        .where('uid', isEqualTo: user.uid)
+        .where('password', isEqualTo: _generatePassword())
+        .snapshots()
+        .map((event) => event.size == 1 && event.docs.first.id == user.uid);
+  }
 
   /// Get all products
-  Stream<List<Product>> get allProducts =>
-      _products.snapshots().asyncMap(_mapProductResult);
+  Stream<List<Product>> get allProducts {
+    return _products.snapshots().asyncMap(_collectProducts);
+  }
 
   /// Get products with quantity > 0
-  Stream<List<Product>> get nonZeroProducts => _products
-      .where('quantity', isGreaterThan: 0)
-      .snapshots()
-      .asyncMap(_mapProductResult);
+  // Stream<List<Product>> get nonZeroProducts => _products
+  //     .where('quantity', isGreaterThan: 0)
+  //     .snapshots()
+  //     .asyncMap(_mapProductResult);
 
-  static List<Product> _mapProductResult(QuerySnapshot<Product> event) {
+  static List<Product> _collectProducts(QuerySnapshot<Product> event) {
     var result = event.docs.fold<List<Product>>([], (list, snapshot) {
       return list..add(snapshot.data());
     });
@@ -84,23 +91,42 @@ class Repository {
     return result;
   }
 
+  /// Get list of products between start and stop dates (inclusive)
+  Stream<ProductReport> getProductReport(DateTime start, DateTime stop) =>
+      _products
+          .where(
+            'date',
+            isGreaterThanOrEqualTo: start.millisecondsSinceEpoch,
+            isLessThanOrEqualTo: stop.millisecondsSinceEpoch,
+          )
+          .snapshots()
+          .map(_collectProducts)
+          .map((products) => ProductReport(
+                startTime: start,
+                endTime: stop,
+                products: products,
+              ));
+
   /// Get list of sales between start and stop dates (inclusive)
-  Stream<Report> getSales(DateTime start, DateTime stop) => _sales
+  Stream<SalesReport> getSalesReport(DateTime start, DateTime stop) => _sales
       .where(
         'date',
         isGreaterThanOrEqualTo: start.millisecondsSinceEpoch,
         isLessThanOrEqualTo: stop.millisecondsSinceEpoch,
       )
       .snapshots()
-      .asyncMap(_mapSalesResult);
-
-  static Report _mapSalesResult(QuerySnapshot<SalesRecord> event) {
-    return Report(
-      event.docs.fold(
-        <SalesRecord>[],
-        (list, snapshot) => list..add(snapshot.data()),
-      ),
-    );
+      .map(_collectSalesRecords)
+      .map((sales) => SalesReport(
+            startTime: start,
+            endTime: stop,
+            sales: sales,
+          ));
+  static List<SalesRecord> _collectSalesRecords(
+      QuerySnapshot<SalesRecord> event) {
+    var result = event.docs.fold<List<SalesRecord>>([], (list, snapshot) {
+      return list..add(snapshot.data());
+    });
+    return result;
   }
 
   Future<DocumentReference<Product>> addProduct(Product product) {
