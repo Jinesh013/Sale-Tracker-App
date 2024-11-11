@@ -30,7 +30,7 @@ class _ProductListViewState extends State<ProductListView> {
     return ListView.separated(
       itemCount: filteredProducts.length + 2,
       padding: const EdgeInsets.only(bottom: 100, top: 0),
-      separatorBuilder: (context, index) => Container(height: 5),
+      separatorBuilder: (context, index) => Container(height: 1),
       itemBuilder: (context, index) {
         if (index == 0) {
           return buildFilterInput();
@@ -76,12 +76,13 @@ class _ProductListViewState extends State<ProductListView> {
   }
 
   Widget buildFilterInput() {
-    if (widget.products.length < 7) {
+    if (widget.products.length < 8) {
       return Container();
     }
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        autofocus: false,
         controller: filterInput,
         textInputAction: TextInputAction.search,
         onChanged: (text) {

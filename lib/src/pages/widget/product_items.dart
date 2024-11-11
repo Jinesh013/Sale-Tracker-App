@@ -34,6 +34,7 @@ class ProductItemTile extends StatelessWidget {
           subtitle: buildSubtitle(),
           trailing: buildPrice(),
           onLongPress: () => _saleProduct(context),
+          onTap: () => FocusScope.of(context).unfocus(),
         ),
       ),
     );
@@ -44,7 +45,6 @@ class ProductItemTile extends StatelessWidget {
       caption: 'Sell',
       color: Colors.teal,
       icon: Icons.add_shopping_cart,
-
       onTap: () => _saleProduct(context),
     );
   }
@@ -54,7 +54,6 @@ class ProductItemTile extends StatelessWidget {
       caption: 'Update',
       color: Colors.blueAccent,
       icon: Icons.edit,
-
       onTap: () => ProductFormDialog.display(context, product),
     );
   }
@@ -64,7 +63,6 @@ class ProductItemTile extends StatelessWidget {
       caption: 'Delete',
       color: Colors.redAccent,
       icon: Icons.delete,
-
       onTap: () => _confirmAndDelete(context),
     );
   }
@@ -115,24 +113,40 @@ class ProductItemTile extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          const TextSpan(text: 'Each unit costs '),
+          const TextSpan(text: 'Added on '),
           TextSpan(
-              text: product.unitCostStr,
+              text: product.dateStr,
               style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontFamily: 'monospace',
+                fontWeight: FontWeight.bold,
               )),
         ],
       ),
     );
   }
 
-  Text buildPrice() {
-    return Text(
-      product.costStr,
-      style: const TextStyle(
-        fontWeight: FontWeight.w600,
-        fontFamily: 'monospace',
+  Widget buildPrice() {
+    return Container(
+      constraints: const BoxConstraints(
+        minWidth: 75,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            product.costStr,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            '${product.quantity} × ${product.unitCostStr}',
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+            ),
+          ),
+        ],
       ),
     );
   }
