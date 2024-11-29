@@ -49,10 +49,6 @@ class HomePage extends StatelessWidget {
       actions: [
         PopupMenuButton<int>(
           icon: const Icon(Icons.history),
-          // label: const Text('Report'),
-          // style: ButtonStyle(
-          //   elevation: MaterialStateProperty.all(0),
-          // ),
           itemBuilder: (context) => [
             const PopupMenuItem(
               value: 1,
