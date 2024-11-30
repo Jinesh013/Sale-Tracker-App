@@ -1,6 +1,6 @@
 # saletrackerapp
 
-A new Flutter project.
+A new Flutter project to manage and track record of product in daily, weekly or monthly basis.
 
 ## Getting Started
 
